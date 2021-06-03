@@ -37,7 +37,7 @@ CASKS=(
     docker
 )
 echo "🍺 Installing cask apps..."
-brew cask install ${CASKS[@]}
+brew install --cask ${CASKS[@]}
 
 GEMS=(
     cocoapods
