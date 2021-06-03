@@ -88,8 +88,8 @@ git clone https://github.com/XVimProject/XVim2.git
 git clone https://github.com/jasonzurita/jasonzurita.github.io.git
 git clone https://github.com/jasonzurita/StandingDeskTimer
 
-echo "⚠️  Some changes aren't applied until you log out and back in."
+echo "⚠️  Note: Some changes aren't applied until you log out and back in."
 
-echo "😁 Remember to: Install Moom from the App Store & setup a new GitHub Personal access token"
+echo "😁 Remember to: Install Moom & Clip copy from the App Store, keyboard maestro, & setup a new GitHub Personal access token"
 
 echo "🎉 Setup complete!"
