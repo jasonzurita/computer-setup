@@ -59,7 +59,7 @@ brew cleanup -s
 
 echo "🛠 Configuring System..."
 mkdir $HOME/Library/Preferences
-mkdir -p $HOME/{Code,Notes,Learn}
+mkdir -p $HOME/{Code}
 defaults write -g InitialKeyRepeat -int 15
 defaults write -g KeyRepeat -int 3
 defaults write com.apple.finder AppleShowAllFiles YES
