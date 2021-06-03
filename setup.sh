@@ -2,6 +2,13 @@
 
 echo "🚀 Starting setup"
 
+echo -n "🖥 Configuring dotfiles..."
+cd $HOME/code/dotfiles
+git clone https://github.com/jasonzurita/dotfiles.git ../dotfiles
+sh setup.sh
+cd $HOME/computer-setup
+echo "done."
+
 # Install Homebrew if not already installed
 if test ! $(which brew); then
     echo "🍺 Installing homebrew..."
@@ -82,8 +89,6 @@ git clone https://github.com/XVimProject/XVim2.git ../XVim2
 git clone https://github.com/jasonzurita/jasonzurita.github.io.git ../jasonzurita.github.io
 git clone https://github.com/jasonzurita/StandingDeskTimer ../StandingDeskTimer
 
-echo "🖥 Configuring vim..."
-cd ./dotfiles && sh setup.sh
 
 echo "⚠️  Some changes aren't applied until you log out and back in."
 
