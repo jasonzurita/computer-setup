@@ -1,12 +1,12 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 
 echo "🚀 Starting setup"
 
 echo -n "🖥 Configuring dotfiles..."
-cd $HOME/code/dotfiles
 git clone https://github.com/jasonzurita/dotfiles.git ../dotfiles
+cd $HOME/Code/dotfiles
 sh setup.sh
-cd $HOME/computer-setup
+cd $HOME/Code/computer-setup
 echo "done."
 
 # Install Homebrew if not already installed
