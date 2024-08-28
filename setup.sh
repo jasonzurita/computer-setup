@@ -73,10 +73,6 @@ defaults write com.apple.Dock autohide-delay -float 0 # turn off dock show/hide 
 defaults write com.apple.dock autohide-time-modifier -float 0.25 # speed up show/hide animation
 killall Dock # restart the dock to pick up the above modifications
 
-# Menu bar
-defaults write com.apple.menuextra.battery ShowPercent YES # show battery percent
-killall SystemUIServer
-
 cp -p ./com.manytricks.Moom.plist $HOME/Library/Preferences/
 
 echo "🎨 Configuring Xcode color theme..."
