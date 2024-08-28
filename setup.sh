@@ -58,7 +58,7 @@ sudo gem install ${GEMS[@]} -N
 echo "🧼 Cleaning up home-brew..."
 brew cleanup -s
 
-echo "🛠 Configuring System..."
+echo "🛠 Configuring system preferences..."
 mkdir $HOME/Library/Preferences
 mkdir -p $HOME/{Code}
 defaults write -g InitialKeyRepeat -int 15
@@ -91,6 +91,6 @@ git clone https://github.com/jasonzurita/StandingDeskTimer
 
 echo "⚠️  Note: Some changes aren't applied until you log out and back in."
 
-echo "😁 Remember to: Install Moom & Clip copy from the App Store, keyboard maestro, & setup a new GitHub Personal access token"
+echo "😁 Remember to: Install Moom & Clip copy from the App Store, keyboard maestro, & setup a new GitHub Personal Access Token (PAT)"
 
 echo "🎉 Setup complete!"
