@@ -32,6 +32,7 @@ PACKAGES=(
     postgres
     pyenv
     nvm
+    rbenv
 )
 
 echo "🍺 Installing brew packages..."
