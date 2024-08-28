@@ -68,9 +68,10 @@ defaults write -g com.apple.swipescrolldirection -bool FALSE # Turn off natural 
 
 # Dock
 defaults write com.apple.dock tilesize -int 52 # make the dock size feel just right
-defaults write com.apple.Dock autohide -bool TRUE # turn on autohide dock
+defaults write com.apple.Dock autohide -bool TRUE # turn on auto hide dock
 defaults write com.apple.Dock autohide-delay -float 0 # turn off dock show/hide delay
 defaults write com.apple.dock autohide-time-modifier -float 0.25 # speed up show/hide animation
+defaults write com.apple.Dock orientation -string left
 killall Dock # restart the dock to pick up the above modifications
 
 cp -p ./com.manytricks.Moom.plist $HOME/Library/Preferences/
