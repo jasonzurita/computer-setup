@@ -82,9 +82,10 @@ cp *.dvtcolortheme $HOME/Library/Developer/Xcode/UserData/FontAndColorThemes/
 
 echo "👯‍♀️ Cloning some projects..."
 cd $HOME/code
-git clone https://github.com/XVimProject/XVim2.git
 git clone https://github.com/jasonzurita/jasonzurita.github.io.git
-git clone https://github.com/jasonzurita/StandingDeskTimer
+git clone https://github.com/jasonzurita/talks.git
+git clone https://github.com/jasonzurita/swiftynotes.git
+git clone https://github.com/jasonzurita/swift-website-dsl.git
 
 echo "⚠️  Note: Some changes aren't applied until you log out and back in."
 
