@@ -90,6 +90,10 @@ git clone https://github.com/jasonzurita/swift-website-dsl.git
 
 echo "⚠️  Note: Some changes aren't applied until you log out and back in."
 
-echo "😁 Remember to: Install Moom & Clip copy from the App Store, keyboard maestro, & setup a new GitHub Personal Access Token (PAT)"
+echo "😁 Remember to:"
+echo "   - Install Moom, CopyClip, Keyboard Maestro from the App Store"
+echo "   - Generate a new SSH key and add it to GitHub"
+echo "   - Run: gh auth login"
+echo "   - Set up a new GitHub Personal Access Token (PAT)"
 
 echo "🎉 Setup complete!"
