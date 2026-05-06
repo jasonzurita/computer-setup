@@ -38,6 +38,9 @@ PACKAGES=(
 echo "🍺 Installing brew packages..."
 brew install ${PACKAGES[@]}
 
+echo "💻 Installing Xcode via xcodes..."
+xcodes install --latest
+
 CASKS=(
     dropbox
     sourcetree
