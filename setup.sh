@@ -70,6 +70,17 @@ defaults write -g KeyRepeat -int 3
 defaults write com.apple.finder AppleShowAllFiles YES
 defaults write -g com.apple.swipescrolldirection -bool FALSE # Turn off natural scrolling
 
+# Enable dictation triggered by double-tapping the Fn/Globe key
+defaults write com.apple.HIToolbox AppleDictationAutoEnable -int 1
+defaults write com.apple.HIToolbox AppleFnUsageType -int 3
+
+# Enable "New Terminal at Folder" service with Cmd+Shift+J
+defaults write pbs NSServicesStatus '{
+    "com.apple.Terminal - New Terminal at Folder - newTerminalAtFolder" = {
+        "key_equivalent" = "@$j";
+    };
+}'
+
 # Dock
 defaults write com.apple.dock tilesize -int 52 # make the dock size feel just right
 defaults write com.apple.Dock autohide -bool TRUE # turn on auto hide dock
