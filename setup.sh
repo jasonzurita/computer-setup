@@ -82,7 +82,7 @@ mkdir -p $HOME/Library/Developer/Xcode/UserData/FontAndColorThemes/
 cp *.dvtcolortheme $HOME/Library/Developer/Xcode/UserData/FontAndColorThemes/
 
 echo "👯‍♀️ Cloning some projects..."
-cd $HOME/code
+cd $HOME/Code
 git clone https://github.com/jasonzurita/jasonzurita.github.io.git
 git clone https://github.com/jasonzurita/talks.git
 git clone https://github.com/jasonzurita/swiftynotes.git
