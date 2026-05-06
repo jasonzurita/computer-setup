@@ -21,18 +21,18 @@ brew update
 PACKAGES=(
     swiftlint
     swiftformat
-    go
+    swift-format
     black
     Ack
     yamllint
-    proselint
-    flake8
     postgres
     pyenv
     nvm
     rbenv
     xcodes
+    xcodegen
     fastlane
+    gh
 )
 
 echo "🍺 Installing brew packages..."
@@ -42,6 +42,9 @@ CASKS=(
     dropbox
     sourcetree
     docker
+    google-chrome
+    zoom
+    slack
 )
 echo "🍺 Installing cask apps..."
 brew install --cask ${CASKS[@]}
@@ -49,7 +52,6 @@ brew install --cask ${CASKS[@]}
 GEMS=(
     cocoapods
     bundler
-    jekyll
 )
 echo "💎 Installing Ruby gems..."
 sudo gem install ${GEMS[@]} -N
