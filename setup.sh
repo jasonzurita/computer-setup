@@ -88,8 +88,16 @@ echo "👯‍♀️ Cloning some projects..."
 cd $HOME/Code
 git clone https://github.com/jasonzurita/jasonzurita.github.io.git
 git clone https://github.com/jasonzurita/talks.git
-git clone https://github.com/jasonzurita/swiftynotes.git
 git clone https://github.com/jasonzurita/swift-website-dsl.git
+
+echo "📱 Cloning mobile projects..."
+mkdir -p $HOME/Code/mobile
+cd $HOME/Code/mobile
+git clone https://github.com/jasonzurita/crema.git
+git clone https://github.com/jasonzurita/crease.git
+git clone https://github.com/jasonzurita/earwig.git
+git clone https://github.com/jasonzurita/GolfSwingAnalyzer.git
+git clone https://github.com/jasonzurita/set-hike-flag-football.git
 
 echo "⚠️  Note: Some changes aren't applied until you log out and back in."
 
