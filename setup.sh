@@ -99,6 +99,9 @@ git clone https://github.com/jasonzurita/earwig.git
 git clone https://github.com/jasonzurita/GolfSwingAnalyzer.git
 git clone https://github.com/jasonzurita/set-hike-flag-football.git
 
+echo "⌨️  Importing Keyboard Maestro macros..."
+open ./keyboard-maestro-macros.kmmacros
+
 echo "⚠️  Note: Some changes aren't applied until you log out and back in."
 
 echo "😁 Remember to:"
