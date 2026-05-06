@@ -19,8 +19,6 @@ echo "🍺 Updating homebrew..."
 brew update
 
 PACKAGES=(
-    carthage
-    cocoapods
     swiftlint
     swiftformat
     go
@@ -33,6 +31,8 @@ PACKAGES=(
     pyenv
     nvm
     rbenv
+    xcodes
+    fastlane
 )
 
 echo "🍺 Installing brew packages..."
@@ -41,7 +41,6 @@ brew install ${PACKAGES[@]}
 CASKS=(
     dropbox
     sourcetree
-    fastlane
     docker
 )
 echo "🍺 Installing cask apps..."
