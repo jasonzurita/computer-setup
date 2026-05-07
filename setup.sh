@@ -108,6 +108,7 @@ git clone https://github.com/jasonzurita/crema.git
 git clone https://github.com/jasonzurita/crease.git
 git clone https://github.com/jasonzurita/earwig.git
 git clone https://github.com/jasonzurita/GolfSwingAnalyzer.git
+git clone https://github.com/jasonzurita/james-sandbox.git
 git clone https://github.com/jasonzurita/set-hike-flag-football.git
 
 echo "⌨️  Importing Keyboard Maestro macros..."
