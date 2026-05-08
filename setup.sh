@@ -33,6 +33,10 @@ PACKAGES=(
     xcodegen
     fastlane
     gh
+    asdf
+    swift-sh
+    ffmpeg
+    git-lfs
 )
 
 echo "🍺 Installing brew packages..."
@@ -48,6 +52,11 @@ CASKS=(
     google-chrome
     zoom
     slack
+    android-studio
+    bartender
+    monodraw
+    claude
+    claude-code
 )
 echo "🍺 Installing cask apps..."
 brew install --cask ${CASKS[@]}
