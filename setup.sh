@@ -2,14 +2,19 @@
 
 echo "🚀 Starting setup"
 
-echo -n "🖥 Configuring dotfiles..."
-git clone https://github.com/jasonzurita/dotfiles.git ../dotfiles
+# Dotfiles
+printf "🖥  Configuring dotfiles..."
+if [ -d "$HOME/Code/dotfiles" ]; then
+    echo " already exists — skipping clone."
+else
+    echo " cloning..."
+    git clone https://github.com/jasonzurita/dotfiles.git ../dotfiles
+fi
 cd $HOME/Code/dotfiles
 sh setup.sh
 cd $HOME/Code/computer-setup
-echo "done."
 
-# Install Homebrew if not already installed
+# Homebrew
 if test ! $(which brew); then
     echo "🍺 Installing homebrew..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -40,15 +45,43 @@ PACKAGES=(
 )
 
 echo "🍺 Installing brew packages..."
-brew install ${PACKAGES[@]}
+for pkg in "${PACKAGES[@]}"; do
+    if brew list "$pkg" &>/dev/null; then
+        echo "  ✓ $pkg (already installed)"
+    else
+        echo "  ↓ Installing $pkg..."
+        brew install "$pkg"
+    fi
+done
 
-echo "💻 Installing Xcode via xcodes..."
-xcodes install --latest
+echo "📦 Setting up Node and Claude Code..."
+export NVM_DIR="$HOME/.nvm"
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && . "/opt/homebrew/opt/nvm/nvm.sh"
+nvm install --lts
+
+INSTALLED_CLAUDE=$(claude --version 2>/dev/null | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
+LATEST_CLAUDE=$(npm view @anthropic-ai/claude-code version 2>/dev/null)
+if [ -z "$INSTALLED_CLAUDE" ]; then
+    echo "  ↓ Installing Claude Code..."
+    npm install -g @anthropic-ai/claude-code
+elif [ "$INSTALLED_CLAUDE" != "$LATEST_CLAUDE" ]; then
+    echo "  ↑ Updating Claude Code ($INSTALLED_CLAUDE → $LATEST_CLAUDE)..."
+    npm install -g @anthropic-ai/claude-code
+else
+    echo "  ✓ Claude Code $INSTALLED_CLAUDE (up to date)"
+fi
+
+echo "💻 Setting up Xcode..."
+if xcodes installed 2>/dev/null | grep -q .; then
+    echo "  ✓ Already installed: $(xcodes installed 2>/dev/null | head -1)"
+else
+    echo "  ↓ Installing latest Xcode..."
+    xcodes install --latest
+fi
 
 CASKS=(
     dropbox
     sourcetree
-    docker
     google-chrome
     zoom
     slack
@@ -56,10 +89,23 @@ CASKS=(
     bartender
     monodraw
     claude
-    claude-code
 )
 echo "🍺 Installing cask apps..."
-brew install --cask ${CASKS[@]}
+for cask in "${CASKS[@]}"; do
+    if brew list --cask "$cask" &>/dev/null; then
+        echo "  ✓ $cask (already installed)"
+    else
+        output=$(brew install --cask "$cask" 2>&1)
+        exit_code=$?
+        if [ $exit_code -eq 0 ]; then
+            echo "  ✓ $cask installed"
+        elif echo "$output" | grep -qi "already"; then
+            echo "  ✓ $cask (already installed outside brew)"
+        else
+            echo "  ✗ $cask: $(echo "$output" | tail -1)"
+        fi
+    fi
+done
 
 GEMS=(
     cocoapods
@@ -68,35 +114,31 @@ GEMS=(
 echo "💎 Installing Ruby gems..."
 sudo gem install ${GEMS[@]} -N
 
-echo "🧼 Cleaning up home-brew..."
+echo "🧼 Cleaning up homebrew..."
 brew cleanup -s
 
-echo "🛠 Configuring system preferences..."
-mkdir $HOME/Library/Preferences
-mkdir -p $HOME/{Code}
+echo "🛠  Configuring system preferences..."
+mkdir -p $HOME/Code
 defaults write -g InitialKeyRepeat -int 15
 defaults write -g KeyRepeat -int 3
 defaults write com.apple.finder AppleShowAllFiles YES
-defaults write -g com.apple.swipescrolldirection -bool FALSE # Turn off natural scrolling
+defaults write -g com.apple.swipescrolldirection -bool FALSE
 
-# Enable dictation triggered by double-tapping the Fn/Globe key
 defaults write com.apple.HIToolbox AppleDictationAutoEnable -int 1
 defaults write com.apple.HIToolbox AppleFnUsageType -int 3
 
-# Enable "New Terminal at Folder" service with Cmd+Shift+J
 defaults write pbs NSServicesStatus '{
     "com.apple.Terminal - New Terminal at Folder - newTerminalAtFolder" = {
         "key_equivalent" = "@$j";
     };
 }'
 
-# Dock
-defaults write com.apple.dock tilesize -int 52 # make the dock size feel just right
-defaults write com.apple.Dock autohide -bool TRUE # turn on auto hide dock
-defaults write com.apple.Dock autohide-delay -float 0 # turn off dock show/hide delay
-defaults write com.apple.dock autohide-time-modifier -float 0.25 # speed up show/hide animation
+defaults write com.apple.dock tilesize -int 52
+defaults write com.apple.Dock autohide -bool TRUE
+defaults write com.apple.Dock autohide-delay -float 0
+defaults write com.apple.dock autohide-time-modifier -float 0.25
 defaults write com.apple.Dock orientation -string left
-killall Dock # restart the dock to pick up the above modifications
+killall Dock
 
 cp -p ./com.manytricks.Moom.plist $HOME/Library/Preferences/
 
@@ -105,30 +147,62 @@ mkdir -p $HOME/Library/Developer/Xcode/UserData/FontAndColorThemes/
 cp *.dvtcolortheme $HOME/Library/Developer/Xcode/UserData/FontAndColorThemes/
 
 echo "👯‍♀️ Cloning some projects..."
-cd $HOME/Code
-git clone https://github.com/jasonzurita/jasonzurita.github.io.git
-git clone https://github.com/jasonzurita/talks.git
-git clone https://github.com/jasonzurita/swift-website-dsl.git
+for repo in jasonzurita.github.io talks swift-website-dsl; do
+    dir="$HOME/Code/$repo"
+    if [ -d "$dir" ]; then
+        echo "  ✓ $repo (already cloned)"
+    else
+        echo "  ↓ Cloning $repo..."
+        git clone "https://github.com/jasonzurita/$repo.git" "$dir"
+    fi
+done
 
 echo "📱 Cloning mobile projects..."
 mkdir -p $HOME/Code/mobile
-cd $HOME/Code/mobile
-git clone https://github.com/jasonzurita/crema.git
-git clone https://github.com/jasonzurita/crease.git
-git clone https://github.com/jasonzurita/earwig.git
-git clone https://github.com/jasonzurita/GolfSwingAnalyzer.git
-git clone https://github.com/jasonzurita/james-sandbox.git
-git clone https://github.com/jasonzurita/set-hike-flag-football.git
+for repo in crema crease earwig GolfSwingAnalyzer james-sandbox set-hike-flag-football; do
+    dir="$HOME/Code/mobile/$repo"
+    if [ -d "$dir" ]; then
+        echo "  ✓ $repo (already cloned)"
+    else
+        echo "  ↓ Cloning $repo..."
+        git clone "https://github.com/jasonzurita/$repo.git" "$dir"
+    fi
+done
 
 echo "⌨️  Importing Keyboard Maestro macros..."
-open ./keyboard-maestro-macros.kmmacros
+KM_APP="/Applications/Keyboard Maestro.app"
+KM_MACROS="$HOME/Code/computer-setup/keyboard-maestro-macros.kmmacros"
+if [ ! -d "$KM_APP" ]; then
+    echo "  ⚠️  Keyboard Maestro not installed — skipping macro import."
+else
+    open -a "Keyboard Maestro"
+    sleep 2
+    open "$KM_MACROS"
+    echo "  ✓ Macros file sent to Keyboard Maestro for import."
+fi
 
+echo ""
 echo "⚠️  Note: Some changes aren't applied until you log out and back in."
 
-echo "😁 Remember to:"
-echo "   - Install Moom, CopyClip, Keyboard Maestro from the App Store"
-echo "   - Generate a new SSH key and add it to GitHub"
-echo "   - Run: gh auth login"
-echo "   - Set up a new GitHub Personal Access Token (PAT)"
+REMINDERS=()
+[ ! -d "/Applications/Moom.app" ] && REMINDERS+=("Install Moom from the App Store")
+[ ! -d "/Applications/CopyClip.app" ] && REMINDERS+=("Install CopyClip from the App Store")
+[ ! -d "/Applications/Keyboard Maestro.app" ] && REMINDERS+=("Install Keyboard Maestro from the App Store")
+if [ $(find ~/.ssh -maxdepth 1 -name "*.pub" 2>/dev/null | wc -l) -eq 0 ]; then
+    REMINDERS+=("Generate a new SSH key and add it to GitHub")
+fi
+if ! gh auth status &>/dev/null; then
+    REMINDERS+=("Run: gh auth login")
+    REMINDERS+=("Set up a new GitHub Personal Access Token (PAT)")
+fi
 
+if [ ${#REMINDERS[@]} -gt 0 ]; then
+    echo ""
+    echo "😁 Remember to:"
+    for reminder in "${REMINDERS[@]}"; do
+        echo "   - $reminder"
+    done
+fi
+
+echo ""
 echo "🎉 Setup complete!"
